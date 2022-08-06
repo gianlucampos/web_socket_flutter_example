@@ -25,16 +25,6 @@ class WebSocketRepository {
   }
 
   void onConnect(StompFrame frame) {
-    // stompClient!.send(destination: '/app/list');
-    //TODO adicionar todos os subscribes para atualizacao em tempo real
-    // stompClient!.subscribe(
-    //     destination: '/topic/newMember',
-    //     callback: (StompFrame frame) {
-    //       var json = frame.body!;
-    //       Player player = Player.fromMap(jsonDecode(json));
-    //       gameProvider.addPlayer(player);
-    //     });
-
     //Lista jogadores
     stompClient!.subscribe(
       destination: '/topic/users',
@@ -43,9 +33,7 @@ class WebSocketRepository {
         final List<Player> players = json
             .map<Player>((p) => Player.fromMap(Map<String, String>.from(p)))
             .toList();
-        for (var player in players) {
-          gameProvider.addPlayer(player);
-        }
+        gameProvider.addPlayers(players);
       },
     );
     stompClient!.send(destination: '/app/list');

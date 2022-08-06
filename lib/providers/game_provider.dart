@@ -5,11 +5,10 @@ import '../models/player.dart';
 class GameProvider extends ChangeNotifier {
   Set<Player> players = <Player>{};
 
-  void addPlayer(Player player) {
-    if (!players.any((p) => p.name == player.name)) {
-      players.add(player);
-      notifyListeners();
-    }
+  void addPlayers(List<Player> list) {
+    players.clear();
+    players.addAll(list);
+    notifyListeners();
   }
 
   void removePlayer(Player? player) {

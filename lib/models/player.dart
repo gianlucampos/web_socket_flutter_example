@@ -20,4 +20,9 @@ class Player {
       vote: map['vote'] as String,
     );
   }
+
+  @override
+  String toString() {
+    return 'Player{name: $name, vote: $vote}';
+  }
 }

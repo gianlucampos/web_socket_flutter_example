@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web_socket/repository/web_socket_repository.dart';
 
+import '../models/player.dart';
 import '../providers/globals.dart';
 
 class HomePage extends StatefulWidget {
@@ -61,11 +62,19 @@ class _HomePageState extends State<HomePage> {
         buildTextButton(
           text: "Remove player",
           function: () {
-            gameProvider.removePlayer(gameProvider.players.isNotEmpty
-                ? gameProvider.players.first
-                : null);
+            if (gameProvider.players.isEmpty) return;
+            Player removedPlayer = gameProvider.players.first;
             webSocket.stompClient!
-                .send(destination: '/app/unregister', body: "Gianluca");
+                .send(destination: '/app/unregister', body: removedPlayer.name);
+          },
+        ),
+        buildTextButton(
+          text: "Reset List",
+          function: () {
+            if (gameProvider.players.isEmpty) return;
+            Player removedPlayer = gameProvider.players.first;
+            webSocket.stompClient!
+                .send(destination: '/app/resetList', body: removedPlayer.name);
           },
         ),
         Column(
